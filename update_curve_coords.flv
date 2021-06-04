@@ -1,0 +1,9 @@
+string coords = "";
+
+for(int i = 0; i < npoints(0); i++){
+    vector pos = point(0, "P", i);
+    string p = sprintf("%d, %d, %d", pos.x, pos.y, pos.z);
+    coords = concat(coords, " ", p);
+}
+
+s@coords = coords;
