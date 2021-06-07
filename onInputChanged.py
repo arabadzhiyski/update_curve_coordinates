@@ -1,14 +1,16 @@
-# Cook the python node which checks the HDA input node type so
-# that its error message can propagate upwards.
+# Thanks for the help Alain2131 from odforce!
 
 this_node = kwargs["node"]
 inputs= this_node.inputs()
 
 if (inputs):
-    path = this_node.path() + "/check_input_type" # Is this the best way?
+    path = this_node.path()
+    curve_sop = hou.nodeType(hou.sopNodeTypeCategory(), "curve")
+    input_type = inputs[0].type()
     
-    try:
-        hou.parm(path + "/switch/input").set(1) # (Re)set the switch
-        hou.node(path + "/check_input_type").cook() # Check input type
-    except:
-        hou.parm(path + "/switch/input").set(0) # Set switch to error stream
+    switch = hou.parm(path + "/switch/input")
+    
+    if input_type != curve_sop:
+        switch.set(0)
+    else:
+        switch.set(1)
